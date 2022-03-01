@@ -1,23 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import './app.css';
+import PageSlider from './components/page-slider'
+import RoutineAccordion from './components/routine-accordion';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <PageSlider labels={["Routines", "Events", "Schedule", "Scripts"]}>
+        <RoutineAccordion />
+        <h1>two</h1>
+        <h1>three</h1>
+        <h1>four</h1>
+      </PageSlider>
     </div>
   );
 }
