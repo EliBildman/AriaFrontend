@@ -9,8 +9,13 @@ export const get_routines = () => {
         .then(res => res.json());
 }
 
-export const get_schedlues = () => {
-    return fetch(`http://${process.env.REACT_APP_API_URL}/schedule`)
+export const get_schedules = () => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/schedules`)
+        .then(res => res.json());
+}
+
+export const get_events = () => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/events`)
         .then(res => res.json());
 }
 
@@ -31,8 +36,54 @@ export const update_routine = (updated_routine) => {
     });
 }
 
+export const update_event = (updated_event) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'update',
+            ID: updated_event.ID,
+            event: updated_event,
+        })
+    });
+}
+
+export const update_schedule = (updated_schedule) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/schedules`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'update',
+            ID: updated_schedule.ID,
+            schedule: updated_schedule,
+        })
+    });
+}
+
 export const delete_routine = (ID) => {
     return fetch(`http://${process.env.REACT_APP_API_URL}/routines`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'delete',
+            ID
+        })
+    });
+}
+
+export const delete_schedule = (ID) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/schedules`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'delete',
+            ID
+        })
+    });
+}
+
+export const delete_event = (ID) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -53,8 +104,41 @@ export const create_routine = (new_routine) => {
     });
 }
 
+export const create_schedule = (new_schedule) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/schedules`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'create',
+            schedule: new_schedule,
+        })
+    });
+}
+
+export const create_event = (new_event) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/events`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'create',
+            event: new_event,
+        })
+    });
+}
+
 export const run_routine = (ID) => {
     return fetch(`http://${process.env.REACT_APP_API_URL}/routines`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'run',
+            ID
+        })
+    });
+}
+
+export const run_event = (ID) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/events`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

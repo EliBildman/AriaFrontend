@@ -14,7 +14,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import ListItem from '@mui/material/ListItem';
-import { types, get_param_info } from '../api/action-param-types';
+import { types, get_param_info } from '../../api/action-param-types';
 
 const ParamCell = (props) => {
     const { info, saved_params, setUnsaved, update, autofocus } = props;

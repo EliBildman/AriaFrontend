@@ -1,5 +1,5 @@
 import { Box, Tabs, Tab, Typography, Grid } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 const PageSlider = (props) => {
     const { children, labels } = props;
@@ -11,6 +11,24 @@ const PageSlider = (props) => {
 
     const tabs = labels.map(label => (<Tab label={label} key={label} />));
     const component = children[index];
+
+    const handleKeyPress = useCallback((event) => { // handle keybinds
+        if (event.target.nodeName !== 'INPUT') {
+            if (event.key === 'ArrowRight') {
+                if(index < labels.length - 1) setIndex(index + 1);
+            }
+            if (event.key === 'ArrowLeft') {
+                if(index > 0) setIndex(index - 1);
+            }
+        }
+    }, [index, labels.length]);
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyPress);
+        return () => {
+            document.removeEventListener('keydown', handleKeyPress);
+        }
+    }, [handleKeyPress]);
 
     return (
         <Box>

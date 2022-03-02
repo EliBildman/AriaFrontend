@@ -1,15 +1,16 @@
 import './app.css';
 import PageSlider from './components/page-slider'
-import RoutineAccordion from './components/routine-accordion';
+import RoutineAccordion from './components/routines/routine-accordion';
+import EventAccordion from './components/events/event-accordion';
+import ScheduleAccordion from './components/schedules/schedule-accordion';
 
 function App() {
   return (
     <div>
-      <PageSlider labels={["Routines", "Events", "Schedule", "Scripts"]}>
+      <PageSlider labels={["Routines", "Events", "Schedule"]}>
         <RoutineAccordion />
-        <h1>two</h1>
-        <h1>three</h1>
-        <h1>four</h1>
+        <EventAccordion />
+        <ScheduleAccordion />
       </PageSlider>
     </div>
   );
