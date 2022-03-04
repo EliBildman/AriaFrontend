@@ -133,7 +133,7 @@ const EventAccordion = () => {
             <Accordion expanded={expanded === index} onChange={handleChange(index)} key={index}>
                 <AccordionSummary>
                     <Typography fontWeight='bold'>{event.name}</Typography>
-                    <Typography paddingLeft={1} color='rgba(0, 0, 0, .3)'>{event.ID}</Typography>
+                    <Typography paddingLeft={1} color='rgba(0, 0, 0, .3)'>ID: {event.ID}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <EventContents

@@ -93,6 +93,17 @@ export const delete_event = (ID) => {
     });
 }
 
+export const delete_script = (ID) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/scripts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'delete',
+            ID
+        })
+    });
+}
+
 export const create_routine = (new_routine) => {
     return fetch(`http://${process.env.REACT_APP_API_URL}/routines`, {
         method: 'POST',
@@ -145,5 +156,26 @@ export const run_event = (ID) => {
             method: 'run',
             ID
         })
+    });
+}
+
+export const run_script = (ID) => {
+    return fetch(`http://${process.env.REACT_APP_API_URL}/scripts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            method: 'run',
+            ID
+        })
+    });
+}
+
+export const upload_script = (file) => {
+    const formData = new FormData();
+    formData.append('script_upload', file);
+    return fetch(`http://${process.env.REACT_APP_API_URL}/scripts`, {
+        method: 'POST',
+        // headers: { 'Content-Type': 'application/json' },
+        body: formData 
     });
 }

@@ -133,7 +133,7 @@ const RoutineAccordion = () => {
             <Accordion expanded={expanded === index} onChange={handleChange(index)} key={index}>
                 <AccordionSummary>
                     <Typography fontWeight='bold'>{routine.name}</Typography>
-                    <Typography paddingLeft={1} color='rgba(0, 0, 0, .3)'>{routine.ID}</Typography>
+                    <Typography paddingLeft={1} color='rgba(0, 0, 0, .3)'>ID: {routine.ID}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                     <RoutineContents
