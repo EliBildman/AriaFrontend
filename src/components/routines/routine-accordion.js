@@ -16,9 +16,7 @@ const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
-    '&:not(:last-child)': {
-        borderBottom: 0,
-    },
+    borderTop: 0,
     '&:before': {
         display: 'none',
     },
@@ -73,7 +71,9 @@ const RoutineAccordion = () => {
 
     const generateUpdateCallback = (routine) => () => {
         update_routine(routine)
-            .then(loadData);
+            .then(() => {
+                loadData()
+            });
     }
 
     const generateDeleteCallback = (routine) => () => {
@@ -110,7 +110,7 @@ const RoutineAccordion = () => {
             if (expanded !== num) {
                 setExpanded(num);
             }
-            else { 
+            else {
                 setExpanded(-1);
             }
         }
@@ -122,38 +122,41 @@ const RoutineAccordion = () => {
             document.removeEventListener('keydown', handleKeyPress);
         }
     }, [handleKeyPress]);
-    
+
 
     useEffect(loadData, []);
 
     let routine_rows = [];
 
     if (actionsLoaded && routinesLoaded) {
-        routine_rows = routines.map((routine, index) => (
-            <Accordion expanded={expanded === index} onChange={handleChange(index)} key={index}>
-                <AccordionSummary>
-                    <Typography fontWeight='bold'>{routine.name}</Typography>
-                    <Typography paddingLeft={1} color='rgba(0, 0, 0, .3)'>ID: {routine.ID}</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <RoutineContents
-                        action_sequence={routine.sequence}
-                        actions={actions} update={generateUpdateCallback(routine)}
-                        _delete={generateDeleteCallback(routine)}
-                        run={generateRunCallback(routine)}
-                    />
-                </AccordionDetails>
-            </Accordion>
-        ));
+        routine_rows = routines.map((routine, index) => {
+            return (
+                <Accordion expanded={expanded === index} onChange={handleChange(index)} key={index}>
+                    <AccordionSummary>
+                        <Typography fontWeight='bold'>{routine.name}</Typography>
+                        <Typography paddingLeft={1} color='rgba(0, 0, 0, .3)'>ID: {routine.ID}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <RoutineContents
+                            action_sequence={routine.sequence}
+                            actions={actions}
+                            update={generateUpdateCallback(routine)}
+                            _delete={generateDeleteCallback(routine)}
+                            run={generateRunCallback(routine)}
+                        />
+                    </AccordionDetails>
+                </Accordion>
+            )
+        });
 
         if (showAddition) routine_rows.push((
             <RoutineAddition key='html is cringe' add={addRoutineCallback} cancel={() => setShowAddition(false)} />
-        ))
+        ));
 
     }
 
     return (
-        <Box>
+        <Box sx={{borderTop: '1px solid rgba(0, 0, 0, .125)'}}>
             <IconButton color='inherit' onClick={() => { setShowAddition(true) }} style={{ //amazing hack here
                 position: 'absolute',
                 top: 2,

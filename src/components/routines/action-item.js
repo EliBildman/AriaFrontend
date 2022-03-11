@@ -1,25 +1,23 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IconButton from "@mui/material/IconButton";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import TextField from '@mui/material/TextField';
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import Grid from '@mui/material/Grid';
 import Typography from "@mui/material/Typography";
 import ListItem from '@mui/material/ListItem';
 import { types, get_param_info } from '../../api/action-param-types';
+import { BoolInput, ChoiceInput, NumberInput, StringInput } from './input-feilds';
 
 const ParamCell = (props) => {
     const { info, saved_params, setUnsaved, update, autofocus } = props;
 
     const [currValue, setCurrValue] = useState(saved_params[info.name]);
+
+    useEffect(() => {
+        setCurrValue(saved_params[info.name])
+    }, [saved_params, info]);
 
     const handleUpdate = (value) => {
         if (info.type !== types.bool && !value) {
@@ -28,69 +26,21 @@ const ParamCell = (props) => {
             if (info.type === types.number) value = parseFloat(value);
             saved_params[info.name] = value;
             setCurrValue(value);
+            // currValue = value;
         }
         setUnsaved(true);
         update();
     }
 
     if (info.type === types.string) {
-        return (
-            <TextField
-                autoFocus={autofocus}
-                label={info.name.toUpperCase()}
-                required={!info.is_optional}
-                defaultValue={currValue}
-                onBlur={(e) => handleUpdate(e.target.value)}
-                size='small'
-            />)
+        // console.log(currValue);
+        return (<StringInput {...props} />);
     } else if (info.type === types.number) {
-        return (
-            <TextField
-                autoFocus={autofocus}
-                label={info.name.toUpperCase()}
-                required={!info.is_optional}
-                defaultValue={currValue}
-                type='number'
-                onBlur={(e) => handleUpdate(e.target.value)}
-                size='small'
-            />)
+        return (<NumberInput {...props}/>);
     } else if (info.type === types.bool) {
-        return (
-            <FormControlLabel
-                control={<Checkbox
-                    defaultChecked={currValue}
-                />}
-                label={info.name.toUpperCase()}
-                onChange={(e) => handleUpdate(e.target.checked)}
-            />
-        )
+        return (<BoolInput {...props}/>);
     } else if (info.type === types.options) {
-
-        const items = info.choices.map((choice, index) => (
-            <MenuItem key={index} value={choice}>{choice}</MenuItem>
-        ));
-        if (info.is_optional) items.unshift((
-            <MenuItem key={-1} value=""><em>None</em></MenuItem>
-        ));
-
-        return (
-            <FormControl sx={{
-                m: 1,
-                minWidth: (info.name.length * 10 + 50)
-            }}>
-                <InputLabel>{info.name.toUpperCase()}</InputLabel>
-                <Select
-                    autoFocus={autofocus}
-                    size="small"
-                    value={currValue ?? ''}
-                    label={info.name.toUpperCase()}
-                    onChange={(e) => handleUpdate(e.target.value)}
-                    required={!info.is_optional}
-                >
-                    {items}
-                </Select>
-            </FormControl>
-        )
+        return (<ChoiceInput {...props} />);
     } else {
         return <div></div>
     }
@@ -105,6 +55,10 @@ const InputOutput = (props) => {
     if (info.type === types.number) type_label = 'number';
     if (info.type === types.string) type_label = 'string';
     if (info.type === types.bool) type_label = 'bool';
+
+    if (info.is_list) {
+        type_label += '[]';
+    }
 
     return (
         <Grid container
@@ -126,7 +80,7 @@ const InputOutput = (props) => {
 
 const ActionItem = (props) => {
 
-    const { name, param_outline, saved_params, update, _delete, moveUp, moveDown } = props;
+    const { name, param_outline, saved_params, update, _delete, moveUp, moveDown, index } = props;
 
     const inputs = [];
     const outputs = [];
@@ -145,7 +99,7 @@ const ActionItem = (props) => {
 
     const vaildateFilled = () => {
         for (let info of param_infos) {
-            if (!info.is_optional && !saved_params[info.name]) {
+            if (!info.is_optional && (saved_params[info.name] === undefined)) {
                 return false;
             }
         }
@@ -156,34 +110,31 @@ const ActionItem = (props) => {
 
     const handleUpdate = () => {
         if (!vaildateFilled()) return;
-
         setUnsaved(false);
         update();
     }
 
-    const input_cells = inputs.map((info, index) => (
-        <Grid item key={'i' + index}>
+    const input_cells = inputs.map((info, ind) => (
+        <Grid item key={'i' + ind}>
             <InputOutput info={info} />
         </Grid>
     ));
 
-    const param_cells = param_infos.map((info, index) => (
-        <Grid item key={index} style={{ paddingTop: 0, paddingBottom: 0 }}>
-            <ParamCell autofocus={index === 0} info={info} saved_params={saved_params} update={handleUpdate} setUnsaved={setUnsaved} />
+    const param_cells = param_infos.map((info, ind) => (
+        <Grid item key={ind} style={{ paddingTop: 0, paddingBottom: 0 }}>
+            <ParamCell autofocus={ind === 0} info={info} saved_params={saved_params} update={handleUpdate} setUnsaved={setUnsaved} />
         </Grid>
     ));
 
-    const output_cells = outputs.map((info, index) => (
-        <Grid item key={'o' + index}>
+    const output_cells = outputs.map((info, ind) => (
+        <Grid item key={'o' + ind}>
             <InputOutput info={info} output />
         </Grid>
     ));
 
-
-
     return (
         <ListItem
-            key={name}
+            key={index}
             sx={{
                 borderTop: 'lightGray solid 1px',
                 padding: 2
@@ -194,7 +145,7 @@ const ActionItem = (props) => {
                     <IconButton onClick={_delete} color='inherit' style={{ paddingTop: 0, paddingBottom: 0 }} >
                         <RemoveCircleOutlineIcon />
                     </IconButton>
-                    <Typography textTransform='uppercase'>{name + (unsaved ? '*' : '')}</Typography>
+                    <Typography>{name + (unsaved ? '*' : '')}</Typography>
                     <Grid container item direction='column' width='fit-content' paddingLeft={0} >
                         <IconButton onClick={moveUp} style={{ paddingTop: 0, paddingBottom: 0 }} >
                             <ArrowDropUpIcon size='small' />

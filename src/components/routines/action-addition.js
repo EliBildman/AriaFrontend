@@ -14,7 +14,7 @@ const ActionAddition = (props) => {
         add(value.name);
     }
 
-    const action_options = actions.map(action => {return {label: action.name.toUpperCase(), name: action.name}});
+    const action_options = actions.map(action => {return {label: action.name, name: action.name}});
 
     return (
         <ListItem
@@ -34,7 +34,7 @@ const ActionAddition = (props) => {
                         disablePortal
                         id="combo-box-demo"
                         options={action_options}
-                        sx={{ width: 200 }}
+                        sx={{ width: 300 }}
                         renderInput={(params) => <TextField 
                             autoFocus
                             {...params} 

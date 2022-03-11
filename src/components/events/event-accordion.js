@@ -16,9 +16,7 @@ const Accordion = styled((props) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
     border: `1px solid ${theme.palette.divider}`,
-    '&:not(:last-child)': {
-        borderBottom: 0,
-    },
+    borderTop: 0,
     '&:before': {
         display: 'none',
     },
@@ -154,7 +152,7 @@ const EventAccordion = () => {
     }
 
     return (
-        <Box>
+        <Box sx={{borderTop: '1px solid rgba(0, 0, 0, .125)',}}>
             <IconButton color='inherit' onClick={() => { setShowAddition(true) }} style={{ //amazing hack here
                 position: 'absolute',
                 top: 2,

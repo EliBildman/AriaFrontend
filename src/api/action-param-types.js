@@ -12,6 +12,7 @@ export const get_param_info = (name, type) => {
     const info = {}
     const id_char = name.charAt(0)
     
+    info.is_list = type.includes('[]');
     info.name = name.match(/\w+/)[0];
     info.is_optional = id_char === '?';
     info.is_input = id_char === '>';
