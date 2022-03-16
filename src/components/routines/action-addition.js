@@ -38,7 +38,7 @@ const ActionAddition = (props) => {
                         renderInput={(params) => <TextField 
                             autoFocus
                             {...params} 
-                            label="NEW ACTION"
+                            label="ADD ACTION"
                         />}
                         size='small'
                         onChange={handleChange}

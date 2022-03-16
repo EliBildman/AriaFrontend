@@ -6,7 +6,7 @@ import RoutineAddition from './routine-addition';
 
 const EventContents = (props) => {
 
-    const { routine_sequence, routines, update, _delete, run } = props
+    const { routine_sequence, routines, update, _delete, run, permenant } = props
 
     const [showAddition, setShowAddition] = useState(false);
 
@@ -76,7 +76,7 @@ const EventContents = (props) => {
 
     return (
         <List style={{padding: 0}}>
-            <EventControlPanel _delete={_delete} run={run} add={() => {setShowAddition(true)}} />
+            <EventControlPanel permenant={permenant} _delete={_delete} run={run} add={() => {setShowAddition(true)}} />
             {routine_items}
             {showAddition ? (<RoutineAddition add={handleAddRoutine} routines={routines} _delete={() => {setShowAddition(false)}} />) : (<></>)}
         </List>

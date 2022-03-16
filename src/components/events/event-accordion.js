@@ -140,6 +140,7 @@ const EventAccordion = () => {
                         update={generateUpdateCallback(event)}
                         _delete={generateDeleteCallback(event)}
                         run={generateRunCallback(event)}
+                        permenant={event.permenant}
                     />
                 </AccordionDetails>
             </Accordion>

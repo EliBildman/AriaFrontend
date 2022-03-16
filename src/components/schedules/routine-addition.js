@@ -38,7 +38,7 @@ const RoutineAddition = (props) => {
                         renderInput={(params) => <TextField 
                             autoFocus
                             {...params} 
-                            label="NEW EVENT"
+                            label="ADD ROUTINE"
                         />}
                         size='small'
                         onChange={handleChange}

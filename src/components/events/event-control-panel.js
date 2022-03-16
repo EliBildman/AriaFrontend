@@ -7,7 +7,7 @@ import { Grid } from '@mui/material';
 
 const EventControlPanel = (props) => {
 
-    const { _delete, run, add } = props;
+    const { _delete, run, add, permenant } = props;
 
     return (
         <ListItem
@@ -20,7 +20,7 @@ const EventControlPanel = (props) => {
                 <Button onClick={run} variant='outlined' color='inherit' startIcon={<PlayCircleOutlineIcon />} style={{marginRight: 5}}>
                     Run
                 </Button>
-                <Button onClick={_delete} variant='outlined' color='inherit' startIcon={<DeleteIcon />} style={{marginRight: 5}}>
+                <Button onClick={_delete} variant='outlined' color='inherit' disabled={permenant} startIcon={<DeleteIcon />} style={{marginRight: 5}}>
                     Delete
                 </Button>
             </Grid>
